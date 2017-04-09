@@ -58,24 +58,32 @@ function register(req, res, next) {
       });
 
       // saving that to the database
-      newUser.save((error) => {
-        if (error) {
-          throw error;
-        }
-
-        const token = jwt.sign({
-          email: newUser.email
-        }, config.jwtSecret);
-        return res.json({
-          token,
-          email: newUser.email
-        });
-      });
+      // newUser.save((error) => {
+      //   if (error) {
+      //     throw error;
+      //   }
+      //
+      //   const token = jwt.sign({
+      //     email: newUser.email
+      //   }, config.jwtSecret);
+      //   return res.json({
+      //     token,
+      //     email: newUser.email
+      //   });
+      // });
+      newUser.save()
+        .then((savedUser) => {
+          const token = jwt.sign({
+            email: savedUser.email
+          }, config.jwtSecret);
+          return res.json({
+            token,
+            email: savedUser.email
+          });
+        })
+        .catch(e => next(e));
     }
   });
-
-  const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
-  return next(err);
 }
 
 /**
