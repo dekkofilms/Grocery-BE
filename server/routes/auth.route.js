@@ -11,6 +11,10 @@ const router = express.Router(); // eslint-disable-line new-cap
 router.route('/login')
   .post(validate(paramValidation.login), authCtrl.login);
 
+/** POST /api/auth/register - Returns token if succesful user is registered */
+router.route('/register')
+  .post(validate(paramValidation.createUser), authCtrl.register);
+
 /** GET /api/auth/random-number - Protected route,
  * needs token returned by the above as header. Authorization: Bearer {token} */
 router.route('/random-number')
