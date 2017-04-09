@@ -28,12 +28,14 @@ function get(req, res) {
  */
 function create(req, res, next) {
   const user = new User({
-    username: req.body.username,
-    mobileNumber: req.body.mobileNumber
+    email: req.body.username,
+    password: req.body.mobileNumber
   });
 
   user.save()
-    .then(savedUser => res.json(savedUser))
+    .then((savedUser) => {
+      res.json(savedUser);
+    })
     .catch(e => next(e));
 }
 
